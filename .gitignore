@@ -11,3 +11,7 @@ keystore.properties
 fastlane/fastlane.json
 Gemfile
 Gemfile.lock
+
+# Project exclude paths
+/commons/build/
+/commons/build/intermediates/javac/debug/classes/

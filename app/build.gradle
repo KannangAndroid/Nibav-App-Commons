@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.nibav.camera'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.nibav.camera"
+        minSdk 29
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+        setProperty("archivesBaseName", "camera")
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file(System.env.HOME + '/Nibav Keystore/nibav_keystore')
+            storePassword 'YaifKsSB8PEise1'
+            keyAlias 'release'
+            keyPassword 'YaifKsSB8PEise1'
+        }
+    }
+
+    buildTypes {
+
+        staging {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            buildConfigField "String", "BUILD_VARIANT", "\"staging\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        production {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            buildConfigField "String", "BUILD_VARIANT", "\"prod\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*'
+        exclude 'META-INF/licenses/*'
+        exclude '**/attach_hotspot_windows.dll'
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation(projects.commons)
+    implementation(libs.bundles.androidx.camera)
+    implementation(libs.androidx.documentfile)
+    implementation(libs.androidx.exifinterface)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.window)
+    implementation(libs.runtime.permission)
+}
